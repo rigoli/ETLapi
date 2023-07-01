@@ -1,4 +1,4 @@
-# ETLapi
+# API DSG24 RGL
 # Scraper de Noticias de Cointelegraph
 
 Este proyecto incluye una clase `Scraper` en Python que utiliza Selenium para recopilar noticias de [Cointelegraph](https://cointelegraph.com/). Puedes utilizar esta clase para recopilar las últimas noticias basadas en una etiqueta específica, así como para obtener el contenido completo de una noticia específica.
@@ -13,38 +13,31 @@ pip install selenium
 
 Además, debes tener el [ChromeDriver](https://sites.google.com/chromium.org/driver/) instalado y en tu PATH.
 
-## Uso
+## Instancia
 
-Para utilizar la clase `Scraper`, debes importarla en tu archivo de Python. Aquí hay un ejemplo de cómo hacerlo:
+La aplicación está creada usando Flask y se ejecuta en localhost en el puerto 8000.
 
-```python
-from scraper import Scraper
-```
+## Endpoints
 
-Luego, puedes crear una nueva instancia de Scraper, proporcionando la etiqueta para la cual deseas recopilar noticias:
+1. `'/'`: Devuelve un mensaje de bienvenida y una lista de los puntos finales disponibles.
 
-```python
-my_scraper = Scraper('bitcoin')
-```
+   Ejemplo de uso: `http://localhost:8000/`
 
-Con tu instancia de `Scraper`, puedes recopilar noticias y obtener el contenido de las noticias. Aquí hay un ejemplo de cómo hacerlo:
+2. `'/news/\<keyword>/\<nNews>'`: Devuelve las últimas `nNews` noticias para la `keyword` dada. Este punto final acepta tanto solicitudes POST como GET.
 
-```python
-# Recopilar noticias
-news = my_scraper.get_news(10)
-print(news)
+   Ejemplo de uso: `http://localhost:8000/news/bitcoin/10`
 
-# Obtener el contenido de una noticia
-content = my_scraper.get_news_single(news[0]['urlId'])
-print(content)
-```
+3. `'/singlenews'`: Devuelve el contenido de una noticia dada por `urlId`, que se pasa como parámetro GET.
 
-En este ejemplo, recopilamos 10 noticias para la etiqueta 'bitcoin' y luego obtenemos y mostramos el contenido de la primera noticia.
+   Ejemplo de uso: `http://localhost:8000/singlenews?urlId=/news/2023-07-01/bitcoin-price-dips-below-35k`
 
+\## Manejo de errores
+
+Cualquier error generado al obtener noticias se maneja internamente y se devuelve un mensaje de error al cliente.
 
 ## Métodos
 
-La clase `Scraper` tiene dos métodos principales que puedes utilizar:
+La clase `ScraperCointelegraph` tiene dos métodos principales que puedes utilizar:
 
 - `get_news(num_news)`: Recopila `num_news` noticias para la etiqueta proporcionada cuando se creó la instancia de `Scraper`. Las noticias se devuelven como una lista de diccionarios, con cada diccionario que contiene información sobre una noticia (incluyendo su `urlId` que puede usarse para obtener su contenido).
 
